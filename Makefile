@@ -40,5 +40,8 @@ $(BINARY): $(OBJECTS)
 distclean: clean
 	rm -f $(BINARY)
 
+example: example.c
+	gcc -o example example.c -Isrc/ -L. -lpifacedigital -L../libmcp23s17/ -lmcp23s17
+
 clean:
 	rm -f $(OBJECTS)

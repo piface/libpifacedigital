@@ -1,6 +1,3 @@
-/* compile with:
- * gcc -o example example.c -Isrc/ -L. -lpifacedigital -L../libmcp23s17/ -lmcp23s17
- */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -28,6 +25,8 @@ int main(int argc, char * argv[])
 
     // set bit 0 on the output port
     pifacedigital_write_bit(1, 0, OUTPUT, hw_addr);
+    uint8_t bit = pifacedigital_read_bit(0, OUTPUT, hw_addr);
+    printf("Bit 0 is: %d\n", bit);
     sleep(1);
     pifacedigital_write_bit(0, 0, OUTPUT, hw_addr);
 

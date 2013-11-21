@@ -1,0 +1,43 @@
+/**
+@mainpage libpifacedigital - A simple C library for PiFace Digital.
+
+[pifacedigital.h](pifacedigital_8h.html)
+
+@section links Links
+
+- [piface.org.uk](http://www.piface.org.uk)
+- [piface product source code](http://piface.github.io)
+- [Source code on GitHub](https://github.com/piface/libpifacedigital)
+
+@section use Using the library
+
+Download:
+
+    $ git clone https://github.com/piface/libpifacedigital.git
+
+Build the library:
+
+    $ cd libpifacedigital/
+    $ make
+
+This creates the library `libpifacedigital.a`. Build and run the example:
+
+    $ make example
+    $ ./example
+
+Include the library in your project with:
+
+    $ gcc -o example example.c -Isrc/ -L. -lpifacedigital -L../libmcp23s17/ -lmcp23s17
+
+`-I` directories to search for header files.
+`-L` directories to search for libraries.
+`-l` libraries to link.
+
+@section todo Todo
+
+Feel free to contribute!
+
+- Debian install
+- Interrupts (using epoll?)
+
+*/
