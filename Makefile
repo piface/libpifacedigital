@@ -43,5 +43,8 @@ distclean: clean
 example: example.c
 	gcc -o example example.c -Isrc/ -L. -lpifacedigital -L../libmcp23s17/ -lmcp23s17
 
+pifacedigital: util/pifacedigital-cmd.c
+	gcc -o pifacedigital util/pifacedigital-cmd.c -Isrc/ -I../libmcp23s17/src/ -L. -lpifacedigital -L../libmcp23s17/ -lmcp23s17
+
 clean:
 	rm -f $(OBJECTS)

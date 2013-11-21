@@ -1,4 +1,4 @@
-/*!
+/**
  * @file  pifacedigital.h
  * @brief A simple static library for controlling PiFace Digital.
  * See mcp23s17.h for more register definitions.
