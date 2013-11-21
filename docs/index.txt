@@ -8,6 +8,7 @@
 - [piface.org.uk](http://www.piface.org.uk)
 - [piface product source code](http://piface.github.io)
 - [Source code on GitHub](https://github.com/piface/libpifacedigital)
+- [libmcp23s17](http://piface.github.io/libmcp23s17)
 
 @section use Using the library
 
