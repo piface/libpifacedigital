@@ -126,9 +126,9 @@ int main(int argc, char **argv)
         exit(1);
     }
 
-    if (strcmp(arguments.cmd, "read")) {
+    if (strcmp(arguments.cmd, "read") == 0) {
         pfd_read(arguments.bit_num, reg, hw_addr);
-    } else if (strcmp(arguments.cmd, "write")) {
+    } else if (strcmp(arguments.cmd, "write") == 0) {
         pfd_write((uint8_t) (arguments.value & 0xff),
                   arguments.bit_num,
                   reg,
@@ -147,9 +147,9 @@ uint8_t str2reg(char * reg_str)
     }
 
     // get the real value
-    if (strcmp(reg_str, "output") | strcmp(reg_str, "gpioa")) {
+    if (strcmp(reg_str, "output") == 0 || strcmp(reg_str, "gpioa") == 0) {
         return GPIOA;
-    } else if (strcmp(reg_str, "input") | strcmp(reg_str, "gpiob")) {
+    } else if (strcmp(reg_str, "input") == 0 || strcmp(reg_str, "gpiob") == 0) {
         return GPIOB;
     } else {
         sprintf(stderr, "pifacedigital: no such register '%s'\n", reg_str);
@@ -159,20 +159,26 @@ uint8_t str2reg(char * reg_str)
 
 void pfd_read(int bit_num, uint8_t reg, uint8_t hw_addr)
 {
+    printf("reading\n");
+    pifacedigital_open(hw_addr);
     uint8_t value;
-    if (bit_num > 0) {
+    if (bit_num >= 0) {
         value = pifacedigital_read_bit(bit_num, reg, hw_addr);
     } else {
         value = pifacedigital_read_reg(reg, hw_addr);
     }
     printf("%d\n", value);
+    pifacedigital_close(hw_addr);
 }
 
 void pfd_write(uint8_t value, int bit_num, uint8_t reg, uint8_t hw_addr)
 {
-    if (bit_num > 0) {
+    printf("write\n");
+    pifacedigital_open(hw_addr);
+    if (bit_num >= 0) {
         pifacedigital_write_bit(value, bit_num, reg, hw_addr);
     } else {
         pifacedigital_write_reg(value, reg, hw_addr);
     }
+    pifacedigital_close(hw_addr);
 }
