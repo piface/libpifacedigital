@@ -6,7 +6,7 @@
 @section links Links
 
 - [piface.org.uk](http://www.piface.org.uk)
-- [piface product source code](http://piface.github.io)
+- [PiFace product source code](http://piface.github.io)
 - [Source code on GitHub](https://github.com/piface/libpifacedigital)
 - [libmcp23s17](http://piface.github.io/libmcp23s17)
 
@@ -14,17 +14,25 @@
 
 Download:
 
+    $ git clone https://github.com/piface/libmcp23s17.git
     $ git clone https://github.com/piface/libpifacedigital.git
 
 Build the library:
 
-    $ cd libpifacedigital/
-    $ make
+    $ cd libmcp23s17/ && make && cd -
+    $ cd libpifacedigital/ && make
 
-This creates the library `libpifacedigital.a`. Build and run the example:
+This creates the library `libpifacedigital.a`.
+
+Build and run the example and the pifacedigital utility for command line
+control:
 
     $ make example
     $ ./example
+
+    $ make pifacedigital
+    $ ./pifacedigital read input
+    $ ./pifacedigital --help
 
 Include the library in your project with:
 
@@ -38,7 +46,8 @@ Include the library in your project with:
 
 Feel free to contribute!
 
+- mcp23s17_fd checking for each function. Print to stderr if not found.
 - Debian install
-- Interrupts (using epoll?)
+- Interrupts (using libmcp23s17 interrupts?)
 
 */
