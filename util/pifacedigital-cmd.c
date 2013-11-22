@@ -61,11 +61,9 @@ static error_t parse_opt(int key, char * arg, struct argp_state * state)
     switch (key)
     {
     case 'b':
-        printf("%s\n", arg);
         arguments->bit_num = atoi(arg);
         break;
     case 'h':
-        printf("%s\n", arg);
         arguments->hw_addr = atoi(arg);
         break;
 
@@ -115,8 +113,8 @@ int main(int argc, char **argv)
 
     argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-    printf("cmd = %s\nreg = %s\nbit_num = %d\nhw_addr = %d\n",
-           arguments.cmd, arguments.reg, arguments.bit_num, arguments.hw_addr);
+    // printf("cmd = %s\nreg = %s\nbit_num = %d\nhw_addr = %d\n",
+    //        arguments.cmd, arguments.reg, arguments.bit_num, arguments.hw_addr);
 
     // hw_addr defaults to 0
     const uint8_t hw_addr = arguments.hw_addr > 0 ? arguments.hw_addr : 0;
@@ -159,7 +157,6 @@ uint8_t str2reg(char * reg_str)
 
 void pfd_read(int bit_num, uint8_t reg, uint8_t hw_addr)
 {
-    printf("reading\n");
     pifacedigital_open(hw_addr);
     uint8_t value;
     if (bit_num >= 0) {
@@ -173,7 +170,6 @@ void pfd_read(int bit_num, uint8_t reg, uint8_t hw_addr)
 
 void pfd_write(uint8_t value, int bit_num, uint8_t reg, uint8_t hw_addr)
 {
-    printf("write\n");
     pifacedigital_open(hw_addr);
     if (bit_num >= 0) {
         pifacedigital_write_bit(value, bit_num, reg, hw_addr);
