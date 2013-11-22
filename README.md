@@ -7,7 +7,7 @@ usage. Hides the SPI file descriptors so the user only has to deal with
 Documentation
 -------------
 
-[http://piface.github.io/piface/libpifacedigital](http://piface.github.io/piface/libpifacedigital)
+[http://piface.github.io/libpifacedigital](http://piface.github.io/libpifacedigital)
 
 Build the docs with:
 
