@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/epoll.h>
+#include <sys/types.h>
 #include <mcp23s17.h>
 #include "pifacedigital.h"
 
@@ -116,4 +119,65 @@ uint8_t pifacedigital_digital_read(uint8_t pin_num)
 void pifacedigital_digital_write(uint8_t pin_num, uint8_t value)
 {
     pifacedigital_write_bit(value, pin_num, OUTPUT, 0);
+}
+
+
+int pifacedigital_enable_interrupts()
+{
+    unsigned int gpio = 25;
+    int fd, len;
+    char str_gpio[3];
+    char filename[33];
+
+    if ((fd = open("/sys/class/gpio/export", O_WRONLY)) < 0)
+    {
+        return -1;
+    }
+    len = snprintf(str_gpio, sizeof(str_gpio), "%d", gpio);
+    write(fd, str_gpio, len);
+    close(fd);
+
+    snprintf(filename, sizeof(filename), "/sys/class/gpio/gpio%d/direction", gpio);
+    if ((fd = open(filename, O_WRONLY)) < 0)
+        return -1;
+
+    write(fd, "in", 3);
+    close(fd);
+
+    snprintf(filename, sizeof(filename), "/sys/class/gpio/gpio%d/edge", gpio);
+    if ((fd = open(filename, O_WRONLY)) < 0)
+        return -1;
+
+    write(fd, "falling", 8);
+    close(fd);
+
+    return 0;
+}
+
+
+uint8_t pifacedigital_wait_for_input(uint8_t hw_addr, int timeout)
+{
+    int epfd = epoll_create(1);
+    int fd = open("/sys/class/gpio/gpio25/value", O_RDONLY | O_NONBLOCK);
+
+    if(fd > 0) {
+        struct epoll_event ev;
+        struct epoll_event events;
+        ev.events = EPOLLIN | EPOLLET;
+        ev.data.fd = fd;
+
+        epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &ev);
+
+        // Flush any pending interrupts prior to wait
+        pifacedigital_read_reg(0x11, hw_addr);
+
+        // Ignore GPIO Initial Event
+        epoll_wait(epfd, &events, 1, 10);
+
+        // Wait for user event
+        epoll_wait(epfd, &events, 1, timeout); 
+
+        close(fd);
+    }
+    return pifacedigital_read_reg(0x11, hw_addr);
 }
