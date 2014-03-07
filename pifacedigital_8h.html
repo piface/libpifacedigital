@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">libpifacedigital
-   &#160;<span id="projectnumber">v0.1.0</span>
+   &#160;<span id="projectnumber">v0.2.0</span>
    </div>
    <div id="projectbrief">A simple static C library for controlling PiFace Digital.</div>
   </td>
@@ -115,6 +115,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ac22e9aa9c327da31c493bebfe2b60c2e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pifacedigital_8h.html#ac22e9aa9c327da31c493bebfe2b60c2e">pifacedigital_write_bit</a> (uint8_t data, uint8_t bit_num, uint8_t reg, uint8_t hw_addr)</td></tr>
 <tr class="memitem:a633b5a22693f87ab0c1d4cd1cb80d287"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pifacedigital_8h.html#a633b5a22693f87ab0c1d4cd1cb80d287">pifacedigital_digital_read</a> (uint8_t pin_num)</td></tr>
 <tr class="memitem:a8c0719d0e4da55d5272b855200c95aa3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pifacedigital_8h.html#a8c0719d0e4da55d5272b855200c95aa3">pifacedigital_digital_write</a> (uint8_t pin_num, uint8_t value)</td></tr>
+<tr class="memitem:ae699ed2acfbb10ca3cd464d7673c9d8e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pifacedigital_8h.html#ae699ed2acfbb10ca3cd464d7673c9d8e">pifacedigital_enable_interrupts</a> ()</td></tr>
+<tr class="memitem:af9bec00d312b49706d859ef09294f9b0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pifacedigital_8h.html#af9bec00d312b49706d859ef09294f9b0">pifacedigital_disable_interrupts</a> ()</td></tr>
+<tr class="memitem:af5455f5213bf475ce0271815d4256c75"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pifacedigital_8h.html#af5455f5213bf475ce0271815d4256c75">pifacedigital_wait_for_input</a> (uint8_t hw_addr, int timeout)</td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>A simple static library for controlling PiFace Digital. See mcp23s17.h for more register definitions. </p>
@@ -206,6 +209,42 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="af9bec00d312b49706d859ef09294f9b0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int pifacedigital_disable_interrupts </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Disables interrupts and exports to the GPIO connection from the PiFaceDigital.</p>
+<p>Example: <a class="el" href="pifacedigital_8h.html#af9bec00d312b49706d859ef09294f9b0">pifacedigital_disable_interrupts()</a>;</p>
+<dl class="section return"><dt>Returns</dt><dd>int 0 on success </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae699ed2acfbb10ca3cd464d7673c9d8e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int pifacedigital_enable_interrupts </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Enables interrupts and exports to the GPIO connection from the PiFaceDigital.</p>
+<p>Example: <a class="el" href="pifacedigital_8h.html#ae699ed2acfbb10ca3cd464d7673c9d8e">pifacedigital_enable_interrupts()</a>;</p>
+<dl class="section return"><dt>Returns</dt><dd>int 0 on success </dd></dl>
 
 </div>
 </div>
@@ -340,6 +379,46 @@ int pifacedigital_fd = pifacedigital_open_noinit(0); // advanced
 
 </div>
 </div>
+<a class="anchor" id="af5455f5213bf475ce0271815d4256c75"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t pifacedigital_wait_for_input </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>hw_addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Waits for a change of any of the input pins on the PiFace Digital, and returns the current state of all inputs as each bit of the 8-bit return value. Requires that interrupts are enabled with <a class="el" href="pifacedigital_8h.html#ae699ed2acfbb10ca3cd464d7673c9d8e">pifacedigital_enable_interrupts()</a> first</p>
+<p>Example: </p>
+<pre class="fragment">pifacedigital_open(0);
+pifacedigital_enable_interrupts();
+uint8_t inputs = pifacedigital_wait_for_input(0);
+pifacedigital_close(0);
+</pre><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hw_addr</td><td>The hardware address (configure with jumpers: JP1 and JP2). </td></tr>
+    <tr><td class="paramname">timeout</td><td>Maximum ms to wait for input, -1 for forever </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>uint8_t 8-bit input states </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ac22e9aa9c327da31c493bebfe2b60c2e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -436,7 +515,7 @@ int pifacedigital_fd = pifacedigital_open_noinit(0); // advanced
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 22 2013 08:54:37 for libpifacedigital by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 7 2014 10:56:35 for libpifacedigital by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>
