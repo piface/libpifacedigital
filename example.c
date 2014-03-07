@@ -27,19 +27,19 @@ int main( int argc, char *argv[] )
 
 
     /**
-     * Enable interrupt processing (only required for all 
-     * blocking/interrupt methods) 
+     * Enable interrupt processing (only required for all
+     * blocking/interrupt methods)
      */
     intenable = pifacedigital_enable_interrupts();
     if ( intenable == 0) printf("Interrupts enabled.\n");
     else printf("Could not enable interrupts.  Try running using sudo to enable PiFaceDigital interrupts.\n");
 
 
-    /** 
-     * Bulk set all 8 outputs at once using a hexidecimal 
-     * representation of the inputs as an 8-bit binary 
-     * number, where each bit represents an output from 
-     * 0-7 
+    /**
+     * Bulk set all 8 outputs at once using a hexidecimal
+     * representation of the inputs as an 8-bit binary
+     * number, where each bit represents an output from
+     * 0-7
      */
     /* Set all outputs off (00000000) */
     printf("Setting all outputs off\n");
@@ -105,7 +105,7 @@ int main( int argc, char *argv[] )
 
 
     /**
-     * Read each input pin individually 
+     * Read each input pin individually
      * A return value of 0 is pressed.
      */
     for (i = 0; i < 8; i++) {
@@ -122,7 +122,7 @@ int main( int argc, char *argv[] )
     }
     else {
         printf("Waiting for input (press any button on the PiFaceDigital)\n");
-        inputs = pifacedigital_wait_for_input(hw_addr, -1);
+        inputs = pifacedigital_wait_for_input(-1, hw_addr);
         printf("Inputs: 0x%x\n", inputs);
     }
 
