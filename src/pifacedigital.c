@@ -129,7 +129,7 @@ int pifacedigital_disable_interrupts()
    return mcp23s17_disable_interrupts();
 }
 
-uint8_t pifacedigital_wait_for_input(uint8_t hw_addr, int timeout)
+uint8_t pifacedigital_wait_for_input(int timeout, uint8_t hw_addr)
 {
     // Flush any pending interrupts prior to wait
     pifacedigital_read_reg(0x11, hw_addr);
