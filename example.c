@@ -4,38 +4,130 @@
 #include "pifacedigital.h"
 
 
-int main(int argc, char * argv[])
+int main( int argc, char *argv[] )
 {
-    // first argument changes hw_addr, defaults to 0
-    int hw_addr = 0;
+    uint8_t i = 0;     /**< Loop iterator */
+    uint8_t inputs;    /**< Input bits (pins 0-7) */
+    int hw_addr = 0;   /**< PiFaceDigital hardware address  */
+    int intenable = 1; /**< Whether or not interrupts are enabled  */
+
+    /**
+     * Read command line value for which PiFace to connect to
+     */
     if (argc > 1) {
         hw_addr = atoi(argv[1]);
     }
 
+
+    /**
+     * Open piface digital SPI connection(s)
+     */
+    printf("Opening piface digital connection at location %d\n", hw_addr);
     pifacedigital_open(hw_addr);
 
-    // Write to output
+
+    /**
+     * Enable interrupt processing (only required for all 
+     * blocking/interrupt methods) 
+     */
+    intenable = pifacedigital_enable_interrupts();
+    if ( intenable == 0) printf("Interrupts enabled.\n");
+    else printf("Could not enable interrupts.  Try running using sudo to enable PiFaceDigital interrupts.\n");
+
+
+    /** 
+     * Bulk set all 8 outputs at once using a hexidecimal 
+     * representation of the inputs as an 8-bit binary 
+     * number, where each bit represents an output from 
+     * 0-7 
+     */
+    /* Set all outputs off (00000000) */
+    printf("Setting all outputs off\n");
     pifacedigital_write_reg(0x00, OUTPUT, hw_addr);
     sleep(1);
+
+    /* Set output states to alternating on/off (10101010) */
+    printf("Setting outputs to 10101010\n");
     pifacedigital_write_reg(0xaa, OUTPUT, hw_addr);
     sleep(1);
+
+    /* Set output states to alternating off/on (01010101) */
+    printf("Setting outputs to 01010101\n");
     pifacedigital_write_reg(0x55, OUTPUT, hw_addr);
     sleep(1);
+
+    /* Set all outputs off (000000) */
+    printf("Setting all outputs off\n");
     pifacedigital_write_reg(0x00, OUTPUT, hw_addr);
 
-    // set bit 0 on the output port
-    pifacedigital_write_bit(1, 0, OUTPUT, hw_addr);
+
+    /**
+     * Read/write single input bits
+     */
     uint8_t bit = pifacedigital_read_bit(0, OUTPUT, hw_addr);
-    printf("Bit 0 is: %d\n", bit);
+    printf("Reading bit 0: %d\n", bit);
     sleep(1);
+    printf("Writing bit 0 to 0\n", bit);
     pifacedigital_write_bit(0, 0, OUTPUT, hw_addr);
 
-    // set the input pullups (must #include "mcp23s17.h")
-    //pifacedigital_write_reg(0xff, GPPUB, hw_addr);
 
-    // print the input state
-    uint8_t input = pifacedigital_read_reg(INPUT, hw_addr);
-    printf("Inputs: 0x%x\n", input);
+    /**
+     * Set input pullups (must #include "mcp23s17.h")
+     */
+    /* pifacedigital_write_reg(0xff, GPPUB, hw_addr); */
 
+
+    /**
+     * Bulk read all inputs at once
+     */
+    inputs = pifacedigital_read_reg(INPUT, hw_addr);
+    printf("Inputs: 0x%x\n", inputs);
+
+
+    /**
+     * Write each output pin individually
+     */
+    for (i = 0; i < 8; i++) {
+        const char *desc;
+        if (i <= 1) desc = "pin with attached relay";
+        else desc = "pin";
+
+        /* Turn output pin i high */
+        printf("Setting output %s %d HIGH\n", desc, (int)i);
+        pifacedigital_digital_write(i, 1);
+        sleep(1);
+
+        /* Turn output pin i low */
+        printf("Setting output %s %d LOW\n", desc, (int)i);
+        pifacedigital_digital_write(i, 0);
+        sleep(1);
+    }
+
+
+    /**
+     * Read each input pin individually 
+     * A return value of 0 is pressed.
+     */
+    for (i = 0; i < 8; i++) {
+        uint8_t pinState = pifacedigital_digital_read(i);
+        printf("Input %d value: %d\n", (int)i, (int)pinState);
+    }
+
+
+    /**
+     * Wait for input change interrupt
+     */
+    if( intenable ) {
+        printf("Interrupts disabled, skipping interrupt tests.\n");
+    }
+    else {
+        printf("Waiting for input (press any button on the PiFaceDigital)\n");
+        inputs = pifacedigital_wait_for_input(hw_addr, -1);
+        printf("Inputs: 0x%x\n", inputs);
+    }
+
+    /**
+     * Close the connection to the PiFace Digital
+     */
     pifacedigital_close(hw_addr);
 }
