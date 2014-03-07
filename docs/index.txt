@@ -48,6 +48,5 @@ Feel free to contribute!
 
 - mcp23s17_fd checking for each function. Print to stderr if not found.
 - Debian install
-- Interrupts (using libmcp23s17 interrupts?)
 
 */
