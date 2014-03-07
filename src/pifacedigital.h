@@ -167,6 +167,17 @@ void pifacedigital_digital_write(uint8_t pin_num, uint8_t value);
 int pifacedigital_enable_interrupts();
 
 /**
+ * Disables interrupts and exports to the GPIO connection from 
+ * the PiFaceDigital. 
+ *  
+ * Example: 
+ *    pifacedigital_disable_interrupts();
+ *  
+ * @return int 0 on success
+ */
+int pifacedigital_disable_interrupts();
+
+/**
  * Waits for a change of any of the input pins on the PiFace 
  * Digital, and returns the current state of all inputs as each 
  * bit of the 8-bit return value. 
