@@ -117,7 +117,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a8c0719d0e4da55d5272b855200c95aa3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pifacedigital_8h.html#a8c0719d0e4da55d5272b855200c95aa3">pifacedigital_digital_write</a> (uint8_t pin_num, uint8_t value)</td></tr>
 <tr class="memitem:ae699ed2acfbb10ca3cd464d7673c9d8e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pifacedigital_8h.html#ae699ed2acfbb10ca3cd464d7673c9d8e">pifacedigital_enable_interrupts</a> ()</td></tr>
 <tr class="memitem:af9bec00d312b49706d859ef09294f9b0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pifacedigital_8h.html#af9bec00d312b49706d859ef09294f9b0">pifacedigital_disable_interrupts</a> ()</td></tr>
-<tr class="memitem:af5455f5213bf475ce0271815d4256c75"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pifacedigital_8h.html#af5455f5213bf475ce0271815d4256c75">pifacedigital_wait_for_input</a> (uint8_t hw_addr, int timeout)</td></tr>
+<tr class="memitem:afc3f07a067cd0b4125b6fed1d3eea26b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pifacedigital_8h.html#afc3f07a067cd0b4125b6fed1d3eea26b">pifacedigital_wait_for_input</a> (int timeout, uint8_t hw_addr)</td></tr>
 </table>
 <a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>A simple static library for controlling PiFace Digital. See mcp23s17.h for more register definitions. </p>
@@ -379,21 +379,21 @@ int pifacedigital_fd = pifacedigital_open_noinit(0); // advanced
 
 </div>
 </div>
-<a class="anchor" id="af5455f5213bf475ce0271815d4256c75"></a>
+<a class="anchor" id="afc3f07a067cd0b4125b6fed1d3eea26b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">uint8_t pifacedigital_wait_for_input </td>
           <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>hw_addr</em>, </td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>timeout</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>timeout</em>&#160;</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>hw_addr</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -406,7 +406,7 @@ int pifacedigital_fd = pifacedigital_open_noinit(0); // advanced
 <p>Example: </p>
 <pre class="fragment">pifacedigital_open(0);
 pifacedigital_enable_interrupts();
-uint8_t inputs = pifacedigital_wait_for_input(0);
+uint8_t inputs = pifacedigital_wait_for_input(5, 0);
 pifacedigital_close(0);
 </pre><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -515,7 +515,7 @@ pifacedigital_close(0);
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 7 2014 10:56:35 for libpifacedigital by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 7 2014 11:13:33 for libpifacedigital by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.1.2
 </small></address>

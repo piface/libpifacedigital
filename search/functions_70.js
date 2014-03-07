@@ -9,7 +9,7 @@ var searchData=
   ['pifacedigital_5fopen_5fnoinit',['pifacedigital_open_noinit',['../pifacedigital_8h.html#a6d1d9fd48114430241de9a5cf9696eff',1,'pifacedigital.c']]],
   ['pifacedigital_5fread_5fbit',['pifacedigital_read_bit',['../pifacedigital_8h.html#a78812b4e8d096d915bdea41b1ca58c5a',1,'pifacedigital.c']]],
   ['pifacedigital_5fread_5freg',['pifacedigital_read_reg',['../pifacedigital_8h.html#ad2f6e3aae70bb07c0b53e141c34f4a87',1,'pifacedigital.c']]],
-  ['pifacedigital_5fwait_5ffor_5finput',['pifacedigital_wait_for_input',['../pifacedigital_8h.html#af5455f5213bf475ce0271815d4256c75',1,'pifacedigital.c']]],
+  ['pifacedigital_5fwait_5ffor_5finput',['pifacedigital_wait_for_input',['../pifacedigital_8h.html#afc3f07a067cd0b4125b6fed1d3eea26b',1,'pifacedigital.c']]],
   ['pifacedigital_5fwrite_5fbit',['pifacedigital_write_bit',['../pifacedigital_8h.html#ac22e9aa9c327da31c493bebfe2b60c2e',1,'pifacedigital.c']]],
   ['pifacedigital_5fwrite_5freg',['pifacedigital_write_reg',['../pifacedigital_8h.html#a773ae224a54e7e122ca300f2cd969561',1,'pifacedigital.c']]]
 ];
