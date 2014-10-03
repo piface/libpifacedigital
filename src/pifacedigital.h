@@ -193,9 +193,9 @@ int pifacedigital_disable_interrupts();
  *
  * @param hw_addr The hardware address (configure with jumpers: JP1 and JP2).
  * @param timeout Maximum ms to wait for input, -1 for forever
- * @return uint8_t 8-bit input states
+ * @return int 8-bit input states or -1 on timeout or error
  */
-uint8_t pifacedigital_wait_for_input(int timeout, uint8_t hw_addr);
+int pifacedigital_wait_for_input(int timeout, uint8_t hw_addr);
 
 
 #ifdef __cplusplus

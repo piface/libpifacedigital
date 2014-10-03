@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <unistd.h>
+#include <string.h>
+#include <errno.h>
 #include <mcp23s17.h>
 #include "pifacedigital.h"
 
@@ -129,14 +131,24 @@ int pifacedigital_disable_interrupts()
    return mcp23s17_disable_interrupts();
 }
 
-uint8_t pifacedigital_wait_for_input(int timeout, uint8_t hw_addr)
+int pifacedigital_wait_for_input(int timeout, uint8_t hw_addr)
 {
     // Flush any pending interrupts prior to wait
     pifacedigital_read_reg(0x11, hw_addr);
 
     // Wait for input state change
-    mcp23s17_wait_for_interrupt(timeout);
-
-    // Read & return input register, thus clearing interrupt
-    return pifacedigital_read_reg(0x11, hw_addr);
+    int num_fd = mcp23s17_wait_for_interrupt(timeout);
+    if (num_fd > 0) {
+        // Read & return input register, thus clearing interrupt
+        return pifacedigital_read_reg(0x11, hw_addr);
+    } else {
+        // error or timeout
+        if (num_fd == 0) {
+            // error
+            fprintf(stderr,
+                    "ERROR:pifacedigital_wait_for_input (%s)\n",
+                    strerror(errno));
+        }
+        return -1;
+    }
 }
