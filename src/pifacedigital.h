@@ -160,42 +160,58 @@ void pifacedigital_digital_write(uint8_t pin_num, uint8_t value);
  * the PiFaceDigital.
  *
  * Example:
+ *
  *    pifacedigital_enable_interrupts();
  *
  * @return int 0 on success
  */
-int pifacedigital_enable_interrupts();
+int pifacedigital_enable_interrupts(void);
 
 /**
  * Disables interrupts and exports to the GPIO connection from
  * the PiFaceDigital.
  *
  * Example:
+ *
  *    pifacedigital_disable_interrupts();
  *
  * @return int 0 on success
  */
-int pifacedigital_disable_interrupts();
+int pifacedigital_disable_interrupts(void);
 
 /**
  * Waits for a change of any of the input pins on the PiFace
  * Digital, and returns the current state of all inputs as each
  * bit of the 8-bit return value.
  * Requires that interrupts are enabled with
- * pifacedigital_enable_interrupts() first
+ * pifacedigital_enable_interrupts() first.
+ *
+ * \note Changed signature in v0.3.0 (from v0.2.0). See CHANGELOG.
  *
  * Example:
  *
  *     pifacedigital_open(0);
  *     pifacedigital_enable_interrupts();
- *     uint8_t inputs = pifacedigital_wait_for_input(5, 0);
+ *     uint8_t inputs;
+ *     int success = pifacedigital_wait_for_input(&inputs, 5, 0);
+ *     if (success > 0) {
+ *         printf("Interrupt detected. Inputs: 0x%x\n", inputs);
+ *     } else if (success == 0) {
+ *         printf("Timeout\n");
+ *     } else {
+ *         printf("Error\n");
+ *     }
+ *     pifacedigital_disable_interrupts();
  *     pifacedigital_close(0);
  *
- * @param hw_addr The hardware address (configure with jumpers: JP1 and JP2).
+ * @param data Points to where to store the value of the input port.
  * @param timeout Maximum ms to wait for input, -1 for forever
+ * @param hw_addr The hardware address (configure with jumpers: JP1 and JP2).
  * @return int 8-bit input states or -1 on timeout or error
  */
-int pifacedigital_wait_for_input(int timeout, uint8_t hw_addr);
+int pifacedigital_wait_for_input(uint8_t *data,
+                                 int timeout,
+                                 uint8_t hw_addr);
 
 
 #ifdef __cplusplus

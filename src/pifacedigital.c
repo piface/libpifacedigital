@@ -120,7 +120,6 @@ void pifacedigital_digital_write(uint8_t pin_num, uint8_t value)
     pifacedigital_write_bit(value, pin_num, OUTPUT, 0);
 }
 
-
 int pifacedigital_enable_interrupts()
 {
    return mcp23s17_enable_interrupts();
@@ -131,24 +130,17 @@ int pifacedigital_disable_interrupts()
    return mcp23s17_disable_interrupts();
 }
 
-int pifacedigital_wait_for_input(int timeout, uint8_t hw_addr)
+int pifacedigital_wait_for_input(uint8_t *data,
+                                 int timeout,
+                                 uint8_t hw_addr)
 {
     // Flush any pending interrupts prior to wait
     pifacedigital_read_reg(0x11, hw_addr);
 
     // Wait for input state change
-    int num_fd = mcp23s17_wait_for_interrupt(timeout);
-    if (num_fd > 0) {
-        // Read & return input register, thus clearing interrupt
-        return pifacedigital_read_reg(0x11, hw_addr);
-    } else {
-        // error or timeout
-        if (num_fd == 0) {
-            // error
-            fprintf(stderr,
-                    "ERROR:pifacedigital_wait_for_input (%s)\n",
-                    strerror(errno));
-        }
-        return -1;
-    }
+    int ret = mcp23s17_wait_for_interrupt(timeout);
+
+    // Read & return input register, thus clearing interrupt
+    *data = pifacedigital_read_reg(0x11, hw_addr);
+    return ret;
 }
