@@ -204,10 +204,10 @@ int pifacedigital_disable_interrupts(void);
  *     pifacedigital_disable_interrupts();
  *     pifacedigital_close(0);
  *
- * @param data Points to where to store the value of the input port.
+ * @param data Points to where to store the value of the 8-bit input states.
  * @param timeout Maximum ms to wait for input, -1 for forever
  * @param hw_addr The hardware address (configure with jumpers: JP1 and JP2).
- * @return int 8-bit input states or -1 on timeout or error
+ * @return int Status, 1 if successful, 0 on timeout and -1 on error.
  */
 int pifacedigital_wait_for_input(uint8_t *data,
                                  int timeout,
