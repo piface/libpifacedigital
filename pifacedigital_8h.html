@@ -437,13 +437,13 @@ pifacedigital_disable_interrupts();
 pifacedigital_close(0);
 </pre><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td>Points to where to store the value of the input port. </td></tr>
+    <tr><td class="paramname">data</td><td>Points to where to store the value of the 8-bit input states. </td></tr>
     <tr><td class="paramname">timeout</td><td>Maximum ms to wait for input, -1 for forever </td></tr>
     <tr><td class="paramname">hw_addr</td><td>The hardware address (configure with jumpers: JP1 and JP2). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>int 8-bit input states or -1 on timeout or error </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>int Status, 1 if successful, 0 on timeout and -1 on error. </dd></dl>
 
 </div>
 </div>
@@ -541,7 +541,7 @@ pifacedigital_close(0);
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Oct 8 2014 15:32:02 for libpifacedigital by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Oct 8 2014 15:34:59 for libpifacedigital by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>
