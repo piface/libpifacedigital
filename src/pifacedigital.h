@@ -213,6 +213,12 @@ int pifacedigital_wait_for_input(uint8_t *data,
                                  int timeout,
                                  uint8_t hw_addr);
 
+/**
+* This is similar to pifacedigital_wait_for_input except for 2 things:
+*     1. The return value is > 0 if some interrupts were triggered. Otherwise it is <= 0.
+*     2. Instead of returning the uint8_t that represent the states of the pins, they are copied into data_ptr;
+*/
+int pifacedigital_wait_for_input2(uint8_t *data_ptr, int timeout, uint8_t hw_addr);
 
 #ifdef __cplusplus
 }

@@ -144,3 +144,16 @@ int pifacedigital_wait_for_input(uint8_t *data,
     *data = pifacedigital_read_reg(0x11, hw_addr);
     return ret;
 }
+
+int pifacedigital_wait_for_input2(uint8_t *data_ptr, int timeout, uint8_t hw_addr)
+{
+    // Flush any pending interrupts prior to wait
+    pifacedigital_read_reg(0x11, hw_addr);
+
+    // Wait for input state change
+    int ret = mcp23s17_wait_for_interrupt(timeout);
+
+    // Read & return input register, thus clearing interrupt
+    *data_ptr = pifacedigital_read_reg(0x11, hw_addr);
+    return ret;
+}
