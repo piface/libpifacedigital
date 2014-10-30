@@ -8,6 +8,7 @@ int main( int argc, char *argv[] )
 {
     uint8_t i = 0;     /**< Loop iterator */
     uint8_t inputs;    /**< Input bits (pins 0-7) */
+    int interrupt_ret; /* Interrupt return value */
     int hw_addr = 0;   /**< PiFaceDigital hardware address  */
     int intenable = 1; /**< Whether or not interrupts are enabled  */
 
@@ -122,8 +123,14 @@ int main( int argc, char *argv[] )
     }
     else {
         printf("Waiting for input (press any button on the PiFaceDigital)\n");
-        inputs = pifacedigital_wait_for_input(-1, hw_addr);
-        printf("Inputs: 0x%x\n", inputs);
+        interrupt_ret = pifacedigital_wait_for_input(&inputs, 5, hw_addr);
+        if (interrupt_ret > 0) {
+            printf("Interrupt detected. Inputs: 0x%x\n", inputs);
+        } else if (interrupt_ret == 0) {
+            printf("Interrupt timeout\n");
+        } else {
+            printf("Interrupt error\n");
+        }
     }
 
     /**

@@ -123,9 +123,13 @@ int main(int argc, char *argv[])
     }
     else {
         printf("Waiting for input (press any button on the PiFaceDigital)\n");
-        interrupt_ret = pifacedigital_wait_for_input(-1, hw_addr);
+        interrupt_ret = pifacedigital_wait_for_input(&inputs, 5, hw_addr);
         if (interrupt_ret > 0) {
-            printf("Inputs: 0x%x\n", inputs);
+            printf("Interrupt detected. Inputs: 0x%x\n", inputs);
+        } else if (interrupt_ret == 0) {
+            printf("Interrupt timeout\n");
+        } else {
+            printf("Interrupt error\n");
         }
     }
 
