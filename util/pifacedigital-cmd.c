@@ -120,7 +120,7 @@ int main(int argc, char **argv)
     const uint8_t hw_addr = arguments.hw_addr > 0 ? arguments.hw_addr : 0;
     const uint8_t reg = str2reg(arguments.reg);
     if (arguments.bit_num > 7) {
-        sprintf(stderr, "pifacedigital: bit num must in range 0-7.\n");
+        fprintf(stderr, "pifacedigital: bit num must in range 0-7.\n");
         exit(1);
     }
 
@@ -150,7 +150,7 @@ uint8_t str2reg(char * reg_str)
     } else if (strcmp(reg_str, "input") == 0 || strcmp(reg_str, "gpiob") == 0) {
         return GPIOB;
     } else {
-        sprintf(stderr, "pifacedigital: no such register '%s'\n", reg_str);
+        fprintf(stderr, "pifacedigital: no such register '%s'\n", reg_str);
         exit(1);
     }
 }
