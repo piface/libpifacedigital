@@ -51,3 +51,7 @@ pifacedigital: util/pifacedigital-cmd.c
 
 clean:
 	rm -f $(OBJECTS)
+
+install: $(BINARY)
+	install 	src/pifacedigital.h /usr/local/include
+	install $(BINARY) /usr/local/lib
