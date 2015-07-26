@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+v0.3.1
+------
+- Updated the example program, which now works again after the API change
+  in v0.3.0.
+- Small fixups and additions to the README.md file on GitHub.
+
 v0.3.0
 ------
 - Changed the function signature of `pifacedigital_wait_for_input()`.
