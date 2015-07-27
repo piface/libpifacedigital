@@ -6,10 +6,10 @@
 
 int main( int argc, char *argv[] )
 {
-    uint8_t i = 0;     /**< Loop iterator */
-    uint8_t inputs;    /**< Input bits (pins 0-7) */
-    int hw_addr = 0;   /**< PiFaceDigital hardware address  */
-    int intenable = 1; /**< Whether or not interrupts are enabled  */
+    uint8_t i = 0;          /**< Loop iterator */
+    uint8_t inputs;         /**< Input bits (pins 0-7) */
+    int hw_addr = 0;        /**< PiFaceDigital hardware address  */
+    int interrupts_enabled; /**< Whether or not interrupts are enabled  */
 
     /**
      * Read command line value for which PiFace to connect to
@@ -27,12 +27,14 @@ int main( int argc, char *argv[] )
 
 
     /**
-     * Enable interrupt processing (only required for all
-     * blocking/interrupt methods)
+     * Enable interrupt processing (only required for all blocking/interrupt methods).
+     * Reverse the return value of pifacedigital_enable_interrupts() to be consistent
+     * with the variable name "interrupts_enabled". (the function returns 0 on success)
      */
-    intenable = pifacedigital_enable_interrupts();
-    if ( intenable == 0) printf("Interrupts enabled.\n");
-    else printf("Could not enable interrupts.  Try running using sudo to enable PiFaceDigital interrupts.\n");
+    if (interrupts_enabled = !pifacedigital_enable_interrupts())
+        printf("Interrupts enabled.\n");
+    else
+        printf("Could not enable interrupts. Try running using sudo to enable PiFaceDigital interrupts.\n");
 
 
     /**
@@ -115,16 +117,18 @@ int main( int argc, char *argv[] )
 
 
     /**
-     * Wait for input change interrupt
+     * Wait for input change interrupt.
+     * pifacedigital_wait_for_input returns a value <= 0 on failure.
      */
-    if( intenable ) {
-        printf("Interrupts disabled, skipping interrupt tests.\n");
-    }
-    else {
+    if (interrupts_enabled) {
         printf("Waiting for input (press any button on the PiFaceDigital)\n");
-        inputs = pifacedigital_wait_for_input(-1, hw_addr);
-        printf("Inputs: 0x%x\n", inputs);
+        if (pifacedigital_wait_for_input(&inputs, -1, hw_addr) > 0)
+            printf("Inputs: 0x%x\n", inputs);
+        else
+            printf("Can't wait for input. Something went wrong!\n");
     }
+    else
+        printf("Interrupts disabled, skipping interrupt tests.\n");
 
     /**
      * Close the connection to the PiFace Digital
