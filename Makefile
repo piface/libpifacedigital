@@ -6,6 +6,7 @@ LIBPATHS=../libmcp23s17/
 LDFLAGS=
 CFLAGS=-c -Wall
 CC=gcc
+SWIG=swig
 
 # ------------ MAGIC BEGINS HERE -------------
 
@@ -52,3 +53,13 @@ clean:
 install: $(BINARY)
 	install 	src/pifacedigital.h /usr/local/include
 	install $(BINARY) /usr/local/lib
+
+bindings:  src/pifacedigital.h src/pifacedigital.i
+	mkdir -p bindings/java
+	$(SWIG) -java -outdir bindings/java src/pifacedigital.i
+	mkdir -p bindings/python
+	$(SWIG) -python -outdir bindings/python src/pifacedigital.i
+	mkdir -p bindings/node
+	$(SWIG) -javascript -node -outdir bindings/node src/pifacedigital.i
+	mkdir -p bindings/lua
+	$(SWIG) -lua -outdir bindings/lua src/pifacedigital.i
